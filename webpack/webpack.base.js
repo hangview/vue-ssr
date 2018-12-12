@@ -13,6 +13,7 @@ const devServer = {
   // historyApiFallback: {
   //   index: '/dist/index.html',
   // },
+  historyApiFallback: true,
   proxy: {},
   hot: true,
 };

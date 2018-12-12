@@ -8,6 +8,6 @@ if(window.__INITIAL_STATE__) {
 
 window.onload = function () {
   console.log('客户端 bundle工作了');
-  setTimeout(()=> app.$mount('#app'),5000)
+  setTimeout(()=> app.$mount('#app'),3000)
   // app.$mount('#app');
 };
