@@ -3,7 +3,7 @@ const exp = require('express');
 const express = exp();
 const renderer = require('vue-server-renderer').createRenderer();
 const createApp = require('./dist/bundle.server.js')['default'];
-const PORT = 8080;
+const PORT = 8081;
 
 // 设置静态文件目录
 express.use('/', exp.static(__dirname + '/dist'));
@@ -31,7 +31,7 @@ express.get('*', (req, res) => {
                 <html lang="en">
                     <head>
                         <meta charset="UTF-8">
-                        <title>Vue2.0 SSR渲染页面</title>
+                        <title>Vue - SSR</title>
                         <script >window.__INITIAL_STATE__ = ${state}</script>
                         <script src="${clientBundleFileUrl}"></script>
                     </head>

@@ -10,9 +10,6 @@ const devServer = {
     errors: true,
   },
   headers: { 'Access-Control-Allow-Origin': '*' },
-  // historyApiFallback: {
-  //   index: '/dist/index.html',
-  // },
   historyApiFallback: true,
   proxy: {},
   hot: true,

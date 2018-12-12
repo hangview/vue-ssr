@@ -3,13 +3,18 @@ const projectRoot = path.resolve(__dirname, '..');
 
 module.exports = {
   // watch: true,
+  // 指定打包目标环境
   target: 'node',
   entry: ['babel-polyfill', path.join(projectRoot, 'entry/entry-server.js')],
+  // devtool: 'source-map',
   output: {
+    // 指定打包应用入口
     libraryTarget: 'commonjs2',
-    path: path.join(projectRoot, 'dist'),
     filename: 'bundle.server.js',
+    path: path.join(projectRoot, 'dist'),
   },
+  // node端不用打包vue等依赖
+  // externals: Object.keys(require('../package.json').dependencies),
   module: {
     rules: [
       {
