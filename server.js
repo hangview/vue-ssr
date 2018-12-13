@@ -26,6 +26,7 @@ express.get('*', (req, res) => {
         console.log(err);
         return res.state(500).end('运行时错误');
       }
+      console.log(html);
       res.send(`
                 <!DOCTYPE html>
                 <html lang="en">
