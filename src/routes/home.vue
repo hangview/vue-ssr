@@ -17,4 +17,9 @@
     },
   };
 </script>
-<style></style>
+<style>
+    p {
+        color: green;
+    }
+
+</style>
