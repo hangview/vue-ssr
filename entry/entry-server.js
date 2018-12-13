@@ -8,7 +8,7 @@ export default context => {
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents();
       if (!matchedComponents.length) return reject({ code: 404 });
-
+      // 数据预取
       Promise.all(matchedComponents.map(component => {
         if (component.asyncData) {
           return component.asyncData(app.$store);

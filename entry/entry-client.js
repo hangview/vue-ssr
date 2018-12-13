@@ -1,13 +1,15 @@
 import { createApp } from '../src/main';
 
-const { app } = createApp();
+const { app,router,store } = createApp();
 if(window.__INITIAL_STATE__) {
-  console.log(window.__INITIAL_STATE__);
-  app.$store.replaceState(window.__INITIAL_STATE__);
+  store.replaceState(window.__INITIAL_STATE__);
 }
 
-window.onload = function () {
-  console.log('客户端 bundle工作了');
-  setTimeout(()=> app.$mount('#app'),3000)
-  // app.$mount('#app');
-};
+// 客户端数据预取
+router.onReady(() => {
+  setTimeout(()=> {
+    app.$mount('#app');
+    console.log('客户端 bundle工作了!');
+  },5000)
+});
+

@@ -1,47 +1,31 @@
 const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const baseConfig = require('./webpack.base');
 const projectRoot = path.resolve(__dirname, '..');
+const VueServerPlugin = require('vue-server-renderer/server-plugin');
 
-module.exports = {
+module.exports = merge(baseConfig, {
   // watch: true,
-  // 指定打包目标环境
   target: 'node',
-  entry: ['babel-polyfill', path.join(projectRoot, 'entry/entry-server.js')],
-  // devtool: 'source-map',
+  entry: path.join(projectRoot, 'entry/entry-server.js'),
   output: {
     // 指定打包应用入口
     libraryTarget: 'commonjs2',
     filename: 'bundle.server.js',
-    path: path.join(projectRoot, 'dist'),
   },
   // node端不用打包vue等依赖
-  // externals: Object.keys(require('../package.json').dependencies),
-  module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: projectRoot,
-        exclude: /node_modules/,
-        options: {
-          presets: ['es2015'],
-        },
-      },
-      {
-        test: /\.less$/,
-        loader: 'style-loader!css-loader!less-loader',
-      },
-
-    ],
-  },
-  plugins: [],
+  externals: Object.keys(require('../package.json').dependencies),
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      'process.env.VUE_ENV': '"server"',
+    }),
+    new VueServerPlugin(),
+  ],
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.runtime.esm.js',
     },
   },
-
-};
+});
