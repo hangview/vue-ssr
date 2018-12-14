@@ -1,14 +1,18 @@
 /* server.js */
 const exp = require('express');
 const express = exp();
-const renderer = require('vue-server-renderer').createRenderer();
-const createApp = require('./dist/bundle.server.js')['default'];
 const PORT = 8080;
+// const isDev = process.env.NODE_ENV === 'development';
+const { createBundleRenderer } = require('vue-server-renderer');
+const serverBundle = require('./dist/vue-ssr-server-bundle');
+const clientManifest = require('./dist/vue-ssr-client-manifest');
+const template = require('fs').readFileSync('./template.html', 'utf-8');
+const renderer = createBundleRenderer(serverBundle, {
+  template,
+  clientManifest,
+});
 
-// 设置静态文件目录
 express.use('/', exp.static(__dirname + '/dist'));
-
-const clientBundleFileUrl = '/bundle.client.js';
 
 express.get('/api/getHome', (req, res) => {
   res.send('SSR server request');
@@ -17,6 +21,7 @@ express.get('/api/getHome', (req, res) => {
 // 响应路由请求
 express.get('*', (req, res) => {
   const context = { url: req.url };
+<<<<<<< HEAD
 
   // 创建vue实例，传入请求路由信息
   createApp(context).then(app => {
@@ -44,7 +49,14 @@ express.get('*', (req, res) => {
     });
   }, err => {
     if (err.code === 404) { res.status(404).end('所请求的页面不存在'); }
+=======
+  renderer.renderToString(context, (err, html) => {
+    if (err) return res.status(500).end('运行时错误');
+    res.end(html);
+>>>>>>> v2
   });
+}, err => {
+  if (err.code === 404) { res.status(404).end('所请求的页面不存在'); }
 });
 
 // 服务器监听地址

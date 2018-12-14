@@ -1,40 +1,21 @@
 const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
 const projectRoot = path.resolve(__dirname, '..');
+const baseConfig = require('./webpack.base');
+const VueClientPlugin = require('vue-server-renderer/client-plugin');
 
-module.exports = {
-  // watch: true,
-  entry: ['babel-polyfill', path.join(projectRoot, 'entry/entry-client.js')],
+module.exports = merge(baseConfig, {
+  entry: path.join(projectRoot, 'entry/entry-client.js'),
   output: {
-    path: path.join(projectRoot, 'dist'),
-    filename: 'bundle.client.js',
+    filename: 'bundle-client.js',
   },
-  module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: projectRoot,
-        exclude: /node_modules/,
-        options: {
-          presets: ['es2015'],
-        },
-      },
-      {
-        test: /\.less$/,
-        loader: 'style-loader!css-loader!less-loader',
-      },
+  plugins: [
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'mainfest',
+    //   minChunks: Infinity
+    // }),
+    new VueClientPlugin(),
+  ],
+});
 
-    ],
-  },
-  plugins: [],
-  resolve: {
-    alias: {
-      'vue$': 'vue/dist/vue.runtime.esm.js',
-    },
-  },
-
-};
